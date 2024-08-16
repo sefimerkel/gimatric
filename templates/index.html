@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gimatria Calculator</title>
+</head>
+<body>
+    <h1>מחשבון גימטריה</h1>
+    <form method="POST">
+        <label for="hebrew_text">הכנס טקסט בעברית:</label><br>
+        <textarea id="hebrew_text" name="hebrew_text" rows="4" cols="50"></textarea><br><br>
+        <input type="submit" value="חשב">
+    </form>
+    {% if text %}
+    <h2>הטקסט המקורי:</h2>
+    <p>{{ text }}</p>
+    {% endif %}
+    {% if gsum %}
+    <h2>סיכום המילים בגימטריה:</h2>
+    <p>{{ gsum }}</p>
+    {% endif %}
+    
+    {% if result %}
+    
+    <h2>תוצאות:</h2>
+    <ol>
+        {% for word, value in result.items() %}
+        <li>{{ word }}: {{ value }}</li>
+        {% endfor %}
+    </ol>
+    {% endif %}
+</body>
+</html>
