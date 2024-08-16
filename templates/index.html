@@ -4,14 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gimatria Calculator</title>
+    <!-- Include Simple Keyboard CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/css/index.css">
+    <style>
+        #keyboard {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
     <h1>מחשבון גימטריה</h1>
     <form method="POST">
         <label for="hebrew_text">הכנס טקסט בעברית:</label><br>
-        <textarea id="hebrew_text" name="hebrew_text" rows="4" cols="50"></textarea><br><br>
+        <textarea id="hebrew_text" name="hebrew_text" rows="4" cols="50">{{ text }}</textarea><br><br>
         <input type="submit" value="חשב">
     </form>
+    <div dir="rtl" class="simple-keyboard" style="width:50%"></div> 
+    <!-- <div  dir="ltr" id="keyboard-container"></div> -->
+
+    <!-- Include jQuery and Simple Keyboard JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/index.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Create a new SimpleKeyboard instance
+            const keyboard = new SimpleKeyboard.default({
+                onChange: input => $('#hebrew_text').val(input),
+                onKeyPress: button => {}
+            });
+
+            // Set Hebrew layout
+            keyboard.setOptions({
+                layout: {
+                    default: [
+                        // 'א ב ג ד ה ו ז ח ט י',
+                        // 'כ ל מ נ ס ע פ צ ק',
+                        // 'ר ש ת {bksp} {space}'
+                        'פ ם ן ו ט א ר ק ',
+                        'ף ך ל ח י ע כ ג ד ש',
+                        'ץ ת צ מ נ ה ב ס ז {bksp} {space}'
+                    ]
+                },
+                display: {
+                    '{bksp}': 'Backspace',
+                    '{space}': ' ',
+                    '{enter}': 'Enter'
+                }
+            });
+
+            // Append the keyboard to the container
+            $('#simple-keyboard').append(keyboard.element);
+        });
+    </script>
     {% if text %}
     <h2>הטקסט המקורי:</h2>
     <p>{{ text }}</p>
@@ -22,7 +66,6 @@
     {% endif %}
     
     {% if result %}
-    
     <h2>תוצאות:</h2>
     <ol>
         {% for word, value in result.items() %}
@@ -30,7 +73,38 @@
         {% endfor %}
     </ol>
     {% endif %}
+    <!-- <input class="input" placeholder="Tap on the virtual keyboard to start" />
+     Include Simple Keyboard JS 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/index.js"></script> -->
+    <!-- <script >
 
-    <P>Many thanks to UDIS AUG 2024</P>
+     
+     $(document).ready(function() {
+        console.log("ready 1");
+        //const Keyboard = window.SimpleKeyboard.default;
+            const keyboard = new SimpleKeyboard({
+                onChange: input => $('#hebrew_text').val(input),
+                onKeyPress: button => {}
+            });
+        const myKeyboard = new Keyboard({
+        onChange: input => onChange(input),
+        onKeyPress: button => onKeyPress(button)
+        });
+
+        function onChange(input) {
+        document.querySelector("#hebrew_text").value = input;
+        console.log("Input changed", input);
+        }
+
+        function onKeyPress(button) {
+        console.log("Button pressed", button);
+        }
+        });
+
+    </script> -->
+    
+
+    <p>Many thanks to UDIS AUG 2024</p>
 </body>
 </html>
