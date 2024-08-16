@@ -13,31 +13,35 @@ def gimatria(word):
     
     # Calculate the Gimatric value of the word
     value = sum(letter_values.get(char, 0) for char in word)
-    
     gvalue=value
     # Reduce the value to a single digit
     while value >= 10:
         value = sum(int(digit) for digit in str(value))
     
-    return gvalue,value
+    return gvalue, value
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     result = {}
-    gtext='מה השעה'
+    gtext = ''
+    gsum = 0
+    gsumz = 0
+    text = ''  # Initialize text here
+
     if request.method == 'POST':
         text = request.form.get('hebrew_text', '')
-        gtext='מה השעה'
-        words = text.split()
-        gsum=0
-        for word in words:
-            gw=gimatria(word)
-            result[word] = gw
-            gsum=gsum+gw[0]
-        gsumz=gsum
-        while gsumz >= 10:
-            gsumz = sum(int(digit) for digit in str(gsumz))    
-    return render_template('index.html',  text=gtext ,gsum=(gsum,gsumz),result=result)
+        if text:
+            gtext = text
+            words = text.split()
+            gsum = 0
+            for word in words:
+                gw = gimatria(word)
+                result[word] = gw
+                gsum += gw[0]
+            gsumz = gsum
+            while gsumz >= 10:
+                gsumz = sum(int(digit) for digit in str(gsumz))
 
+    return render_template('index.html', text=gtext, gsum=(gsum, gsumz), result=result)
 if __name__ == '__main__':
     app.run(debug=True)

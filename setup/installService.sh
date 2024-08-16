@@ -1,9 +1,10 @@
+
 sudo chown -R sefi:www-data /srv/www/gimatric
-sudo cp gimatric.service /etc/systemd/system/
+sudo cp /srv/www/gimatric/setup/gimatric.service /etc/systemd/system/
 sudo systemctl daemon-reload
-sudo systemctl start gimatric
+sudo systemctl restart gimatric
 sudo systemctl enable gimatric
-sudo cp nginx.server  /etc/nginx/sites-available/gimatric
+sudo cp /srv/www/gimatric/setup/nginx.server  /etc/nginx/sites-available/gimatric
 if ! [ -f /etc/nginx/sites-enabled/gimatric ]; then
     sudo ln -s /etc/nginx/sites-available/gimatric  /etc/nginx/sites-enabled
 fi    
