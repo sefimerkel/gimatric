@@ -33,10 +33,13 @@ def index():
         if text:
             gtext = text
             words = text.split()
+            print(words)
             gsum = 0
             for word in words:
                 gw = gimatria(word)
-                result[word] = gw
+                if word not in result:
+                    result[word] = []
+                result[word].append(gw)
                 gsum += gw[0]
             gsumz = gsum
             while gsumz >= 10:
